@@ -1,0 +1,5 @@
+FROM postgres:17.8-alpine3.23
+
+ENV POSTGRES_PASSWORD=admin
+
+COPY data.sql /docker-entrypoint-initdb.d/data.sql

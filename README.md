@@ -27,7 +27,7 @@ O projeto possui um pipeline de integração contínua configurado com GitHub Ac
 - **Testes**: compilação e execução dos testes automatizados
 - **Segurança (Trivy)**: análise de vulnerabilidades no código-fonte
 
-O pipeline pode ser executado automaticamente (push/PR na branch `main`) ou manualmente pela aba Actions, com opções para habilitar/desabilitar testes e linting.
+O pipeline pode ser executado automaticamente (push/PR na branch `master`) ou manualmente pela aba Actions, com opções para habilitar/desabilitar testes e linting.
 
 ---
 
@@ -52,7 +52,7 @@ As ferramentas utilizadas foram a interface web do GitHub Actions, especificamen
 
 Foram realizadas duas execuções distintas do pipeline:
 
-1. **Push automático**: executado automaticamente ao enviar código para a branch `main`. Todos os jobs são executados com os parâmetros padrão (testes e lint habilitados).
+1. **Push automático**: executado automaticamente ao enviar código para a branch `master`. Todos os jobs são executados com os parâmetros padrão (testes e lint habilitados).
 
 2. **Execução manual (Run workflow)**: disparado pelo botão "Run workflow" na aba Actions. Permite escolher individualmente se deseja executar os testes e/ou o linting através dos parâmetros booleanos `run_tests` e `run_lint`.
 

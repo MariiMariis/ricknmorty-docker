@@ -1,0 +1,47 @@
+name: Contextos e Variáveis de Ambiente
+
+on:
+  workflow_dispatch:
+
+env:
+  STAGE: test
+  APP_NAME: ricknmorty-api
+
+jobs:
+  env-demo:
+    name: Demonstrar Contextos e Escopos
+    runs-on: ubuntu-latest
+    env:
+      JOB_ENV: valor-do-job
+    steps:
+      - name: Contexto GitHub
+        run: |
+          echo "Actor: ${{ github.actor }}"
+          echo "Repositório: ${{ github.repository }}"
+          echo "Evento: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+
+      - name: Contexto Runner
+        run: |
+          echo "Sistema Operacional: ${{ runner.os }}"
+          echo "Arquitetura: ${{ runner.arch }}"
+          echo "Workspace: ${{ runner.workspace }}"
+
+      - name: Variáveis de nível workflow
+        run: |
+          echo "STAGE: $STAGE"
+          echo "APP_NAME: $APP_NAME"
+
+      - name: Variáveis de nível job
+        run: echo "JOB_ENV: $JOB_ENV"
+
+      - name: Variáveis de nível step
+        env:
+          STEP_ENV: valor-do-step
+          STAGE: producao
+        run: |
+          echo "STEP_ENV: $STEP_ENV"
+          echo "STAGE (sobrescrito no step): $STAGE"
+
+      - name: Verificar sobreposição de escopo
+        run: echo "STAGE (volta ao valor do workflow): $STAGE"

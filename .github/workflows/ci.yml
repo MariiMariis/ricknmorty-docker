@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: 'Executar testes'
+        required: false
+        type: boolean
+        default: true
+      run_lint:
+        description: 'Executar linting'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  lint-and-test:
+    uses: ./.github/workflows/lint-and-test.yml
+    with:
+      run_tests: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tests || true }}
+      run_lint: ${{ github.event_name == 'workflow_dispatch' && inputs.run_lint || true }}
+
+  security:
+    name: Análise de Segurança (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Executar Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'

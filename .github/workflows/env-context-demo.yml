@@ -1,4 +1,4 @@
-name: Contextos e Variáveis de Ambiente
+name: Env Context Demo
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
       - name: Contexto GitHub
         run: |
           echo "Actor: ${{ github.actor }}"
-          echo "Repositório: ${{ github.repository }}"
+          echo "Repositorio: ${{ github.repository }}"
           echo "Evento: ${{ github.event_name }}"
           echo "Branch: ${{ github.ref }}"
 
@@ -27,15 +27,15 @@ jobs:
           echo "Arquitetura: ${{ runner.arch }}"
           echo "Workspace: ${{ runner.workspace }}"
 
-      - name: Variáveis de nível workflow
+      - name: Variaveis de nivel workflow
         run: |
           echo "STAGE: $STAGE"
           echo "APP_NAME: $APP_NAME"
 
-      - name: Variáveis de nível job
+      - name: Variaveis de nivel job
         run: echo "JOB_ENV: $JOB_ENV"
 
-      - name: Variáveis de nível step
+      - name: Variaveis de nivel step
         env:
           STEP_ENV: valor-do-step
           STAGE: producao
@@ -43,5 +43,5 @@ jobs:
           echo "STEP_ENV: $STEP_ENV"
           echo "STAGE (sobrescrito no step): $STAGE"
 
-      - name: Verificar sobreposição de escopo
+      - name: Verificar sobreposicao de escopo
         run: echo "STAGE (volta ao valor do workflow): $STAGE"

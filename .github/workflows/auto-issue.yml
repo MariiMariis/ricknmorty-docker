@@ -1,0 +1,36 @@
+name: Auto Issue
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+env:
+  REQUIRED_VAR: ""
+
+jobs:
+  check-and-issue:
+    name: Verificar e Criar Issue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar variavel obrigatoria
+        id: check
+        run: |
+          if [ -z "$REQUIRED_VAR" ]; then
+            echo "result=missing" >> $GITHUB_OUTPUT
+          else
+            echo "result=ok" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Criar issue automaticamente
+        if: steps.check.outputs.result == 'missing'
+        run: |
+          gh issue create \
+            --title "Variavel obrigatoria ausente" \
+            --body "A variavel REQUIRED_VAR nao foi definida. Verifique a configuracao do pipeline." \
+            --label "bug"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

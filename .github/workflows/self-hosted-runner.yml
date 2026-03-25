@@ -1,0 +1,26 @@
+name: Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  runner-test:
+    name: Teste no Runner Auto-Hospedado
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Informações do Sistema
+        run: |
+          echo "Sistema Operacional:"
+          uname -a || systeminfo
+          echo "Usuário:"
+          whoami
+
+      - name: Verificar Java
+        run: java -version
+
+      - name: Instalar software adicional (curl)
+        run: |
+          sudo apt-get update && sudo apt-get install -y curl
+          curl --version

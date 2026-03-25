@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CharacterController {
     private final PersonagemRepository repository;
-    // Buscar todos os personagens
+
     @GetMapping
     public ResponseEntity<?> getAllCharacters(@RequestHeader(value = "page", defaultValue = "0") String page,
                                               @RequestHeader(value = "size", defaultValue = "10") String size) {
@@ -29,5 +30,11 @@ public class CharacterController {
         headers.add("X-Total-Count", String.valueOf(repository.count()));
         List<Personagem> allCharacters = repository.findAll();
         return new ResponseEntity<>(allCharacters, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Personagem>> searchByName(@RequestParam String name) {
+        List<Personagem> results = repository.findByNameContainingIgnoreCase(name);
+        return ResponseEntity.ok(results);
     }
 }

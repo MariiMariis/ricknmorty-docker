@@ -31,6 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Erro proposital
+        run: exit 1
+        
       - name: Executar Trivy
         uses: aquasecurity/trivy-action@0.35.0
         with:
